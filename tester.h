@@ -7,15 +7,13 @@
 
 //////////////////////////////////////////////////////////////////////
 
-#define TEST_COLOR_LENGTH 16
-
-static char RED[TEST_COLOR_LENGTH]       = "";
-static char RED_B[TEST_COLOR_LENGTH]     = "";
-static char GREEN[TEST_COLOR_LENGTH]     = "";
-static char GREEN_B[TEST_COLOR_LENGTH]   = "";
-static char BLUE_B[TEST_COLOR_LENGTH]    = "";
-static char MAGENTA_B[TEST_COLOR_LENGTH] = "";
-static char RESET[TEST_COLOR_LENGTH]     = "";
+static const char* RED       = "";
+static const char* RED_B     = "";
+static const char* GREEN     = "";
+static const char* GREEN_B   = "";
+static const char* BLUE_B    = "";
+static const char* MAGENTA_B = "";
+static const char* RESET     = "";
 
 //////////////////////////////////////////////////////////////////////
 
@@ -30,13 +28,13 @@ static char _test_name[TEST_NAME_LENGTH] = "UNDEF";
 void TEST_COLOR_INIT(int turn_on)
 {
     if (turn_on) {
-        strncpy(RED       , "[31m"   , TEST_COLOR_LENGTH);
-        strncpy(RED_B     , "[1;31m" , TEST_COLOR_LENGTH);
-        strncpy(GREEN     , "[32m"   , TEST_COLOR_LENGTH);
-        strncpy(GREEN_B   , "[1;32m" , TEST_COLOR_LENGTH);
-        strncpy(BLUE_B    , "[1;34m" , TEST_COLOR_LENGTH);
-        strncpy(MAGENTA_B , "[1;35m" , TEST_COLOR_LENGTH);
-        strncpy(RESET     , "[0m"    , TEST_COLOR_LENGTH);
+        RED       = "\033[31m";
+        RED_B     = "\033[31;1m";
+        GREEN     = "\033[32m";
+        GREEN_B   = "\033[32;1m";
+        BLUE_B    = "\033[34;1m";
+        MAGENTA_B = "\033[35;1m";
+        RESET     = "\033[0m";
     }
 }
 

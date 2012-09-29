@@ -6,18 +6,20 @@ tester - a simple testing framework for C/C++
 SYNOPSIS
 ========
 
-    #include "tester.h"
+```C
+#include "tester.h"
 
-    deftest(name) { ... }
-    declaretest(name);
-    void END_TEST();
+deftest(name) { ... }
+declaretest(name);
+void END_TEST();
 
-    void TEST(predicate);
-    void STEST(predicate);
-    void TIMER(code);
+void TEST(predicate);
+void STEST(predicate);
+void TIMER(code);
 
-    void TEST_COLOR_INIT(int turn_on);
-    void TEST_COLOR_INIT_AUTO();    /* needs unistd.h */
+void TEST_COLOR_INIT(int turn_on);
+void TEST_COLOR_INIT_AUTO();    /* needs unistd.h */
+```
 
 Link with `-ltester`
 
@@ -46,30 +48,32 @@ DESCRIPTION
 EXAMPLE
 =======
 
-    #include "tester.h"
-    #include <unistd.h>    /* for TEST_COLOR_INIT_AUTO */
+```C
+#include "tester.h"
+#include <unistd.h>    /* for TEST_COLOR_INIT_AUTO */
+
+deftest(mytest1)
+{
+    TEST(2 + 2 == 4);
+    TEST(2 * 2 == 5);    /* will fail */
     
-    deftest(mytest1)
-    {
-        TEST(2 + 2 == 4);
-        TEST(2 * 2 == 5);    /* will fail */
-        
-        END_TEST();
-    }
+    END_TEST();
+}
+
+deftest(mytest2)
+{
+    TEST(some_stuff());
     
-    deftest(mytest2)
-    {
-        TEST(some_stuff());
-        
-        END_TEST();
-    }
+    END_TEST();
+}
+
+int main(int argc, char *argv[])
+{
+    TEST_COLOR_INIT_AUTO();
     
-    int main(int argc, char *argv[])
-    {
-        TEST_COLOR_INIT_AUTO();
-        
-        return mytest1() | mytest2();
-    }
+    return mytest1() | mytest2();
+}
+```
 
 COPYRIGHT
 =========

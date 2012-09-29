@@ -61,6 +61,10 @@ void TEST_COLOR_INIT(int turn_on);
     {                                           \
         BEGIN_TEST(NAME);
 
+/**************************************/
+
+#define declaretest(NAME) int NAME()
+
 /********************************************************************/
 
 /* checks a given predicate */

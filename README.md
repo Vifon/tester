@@ -9,6 +9,7 @@ SYNOPSIS
     #include "tester.h"
 
     deftest(name) { ... }
+    declaretest(name);
     void END_TEST();
 
     void TEST(predicate);
@@ -33,6 +34,8 @@ DESCRIPTION
 **TEST_COLOR_INIT_AUTO** automatically turns on the coloring if stderr is an interactive terminal.
 
 **deftest** macro defines a test-function in which you can use the other macros. You can use them in all the functions called from this function as long as they are not called from the outside. You *must* end it with END_TEST() macro! One deftest function *must not* call another. This test-function returns non-zero if all the tests passed.
+
+**declaretest** creates a declaration of a deftest function for the headers.
 
 **TEST** checks whether a given predicate is true.
 

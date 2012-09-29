@@ -16,6 +16,10 @@ SYNOPSIS
 DESCRIPTION
 ===========
 
+**TEST_COLOR_INIT** turns on all the pretty colors and whatnot when called with a non-zero argument.
+
+**TEST_COLOR_INIT_AUTO** automatically turns on the coloring if stderr is an interactive terminal.
+
 **deftest** macro defines a test-function in which you can use the other macros. You can use them in all the functions called from this function as long as they are not called from the outside. You *must* end it with END_TEST() macro! This test-function returns non-zero if all the tests passed.
 
 **TEST** checks whether a given predicate is true.
@@ -23,10 +27,6 @@ DESCRIPTION
 **STEST** is the same as **TEST** but does not print anything on success. The 'S' stands for "silent".
 
 **TIMER** measures the code execution time.
-
-**TEST_COLOR_INIT** turns on all the pretty colors and whatnot when called with a non-zero argument.
-
-**TEST_COLOR_INIT_AUTO** automatically turns on the coloring if stderr is an interactive terminal.
 
 EXAMPLE
 =======

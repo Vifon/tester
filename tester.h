@@ -1,4 +1,4 @@
-// File: tester.h
+/* File: tester.h */
 #ifndef _TESTER_H_
 #define _TESTER_H_
 
@@ -6,51 +6,38 @@
 #include <string.h>
 #include <time.h>
 
-//////////////////////////////////////////////////////////////////////
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+/********************************************************************/
 
 /* these formatting strings are populated by TEST_COLOR_INIT */
-static const char* _RED       = "";
-static const char* _RED_B     = "";
-static const char* _GREEN     = "";
-static const char* _GREEN_B   = "";
-static const char* _BLUE_B    = "";
-static const char* _MAGENTA_B = "";
-static const char* _CYAN      = "";
-static const char* _CYAN_B    = "";
-static const char* _RESET     = "";
+extern const char* _RED;
+extern const char* _RED_B;
+extern const char* _GREEN;
+extern const char* _GREEN_B;
+extern const char* _BLUE_B;
+extern const char* _MAGENTA_B;
+extern const char* _CYAN;
+extern const char* _CYAN_B;
+extern const char* _RESET;
 
-static const char* _ELLIPSIS        = "";
-static const char* _REVERT_ELLIPSIS = "";
+extern const char* _ELLIPSIS;
+extern const char* _REVERT_ELLIPSIS;
 
-//////////////////////////////////////////////////////////////////////
+/********************************************************************/
 
-#define TEST_NAME_LENGTH 256
+extern int _tests_failed;
+extern const char* _test_name;
 
-static int  _tests_failed = 0;
-static char _test_name[TEST_NAME_LENGTH] = "UNDEF";
-
-//////////////////////////////////////////////////////////////////////
+/********************************************************************/
 
 /* turn on colors when `turn_on' is non-zero */
-void TEST_COLOR_INIT(int turn_on)
-{
-    if (turn_on) {
-        _RED       = "\033[31m";
-        _RED_B     = "\033[31;1m";
-        _GREEN     = "\033[32m";
-        _GREEN_B   = "\033[32;1m";
-        _BLUE_B    = "\033[34;1m";
-        _MAGENTA_B = "\033[35;1m";
-        _CYAN      = "\033[36m";
-        _CYAN_B    = "\033[36;1m";
-        _RESET     = "\033[0m";
+void TEST_COLOR_INIT(int turn_on);
 
-        _ELLIPSIS        = "...";
-        _REVERT_ELLIPSIS = "\033[3D\033[0K";
-    }
-}
-
-////////////////////////////////////////
+/**************************************/
 
 /* turn on colors if stderr is a tty or user started the program with --color
  * REQUIRES unistd.h*/
@@ -58,25 +45,23 @@ void TEST_COLOR_INIT(int turn_on)
     TEST_COLOR_INIT((argc > 1 && strcmp(argv[1], "--color") == 0) ||    \
                     isatty(fileno(stderr)));
 
-
-//////////////////////////////////////////////////////////////////////
+/********************************************************************/
 
 #define BEGIN_TEST(NAME)                                \
     do {                                                \
-        strncpy(_test_name, #NAME, TEST_NAME_LENGTH);   \
-        _test_name[TEST_NAME_LENGTH-1] = '\0';          \
         _tests_failed = 0;                              \
+        _test_name    = #NAME;                          \
     } while (0)
 
-////////////////////////////////////////
+/**************************************/
 
 /* defines a new test */
 #define deftest(NAME)                           \
     int NAME()                                  \
     {                                           \
-        BEGIN_TEST(NAME);                       \
+        BEGIN_TEST(NAME);
 
-//////////////////////////////////////////////////////////////////////
+/********************************************************************/
 
 /* checks a given predicate */
 #define TEST(P)                                               \
@@ -94,7 +79,7 @@ void TEST_COLOR_INIT(int turn_on)
                 _color     , #P         , _RESET);            \
     } while (0)
 
-//////////////////////////////////////////////////////////////////////
+/********************************************************************/
 
 /* silent test - no output on success */
 #define STEST(P)                                              \
@@ -110,7 +95,7 @@ void TEST_COLOR_INIT(int turn_on)
         }                                                     \
     } while (0)
 
-//////////////////////////////////////////////////////////////////////
+/********************************************************************/
 
 #define TIMER(P)                                                      \
     do {                                                              \
@@ -133,7 +118,7 @@ void TEST_COLOR_INIT(int turn_on)
                 _CYAN_B    , _timer_result , _RESET);                 \
     } while (0)
 
-//////////////////////////////////////////////////////////////////////
+/********************************************************************/
 
 #define TEST_PASSED()                                                 \
     do {                                                              \
@@ -152,11 +137,15 @@ void TEST_COLOR_INIT(int turn_on)
         return !!_tests_failed;                                       \
     } while (0)
 
-////////////////////////////////////////
+/**************************************/
 
 /* end of a deftest function */
 #define END_TEST() TEST_PASSED();}
 
-//////////////////////////////////////////////////////////////////////
+/********************************************************************/
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -1,6 +1,7 @@
 /* File: example.c */
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
 #include "tester.h"
 
 void bubblesort()

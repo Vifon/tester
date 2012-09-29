@@ -29,3 +29,4 @@ clean:
 install: all
 	$(INSTALL) -m 644 libtester.a  "$(PREFIX)/lib/"
 	$(INSTALL) -m 644 libtester.so "$(PREFIX)/lib/"
+	$(INSTALL) -m 644 tester.h     "$(PREFIX)/include/"

@@ -7,7 +7,7 @@ SYNOPSIS
 ========
 
 ```C
-#include "tester.h"
+#include <tester.h>
 
 deftest(name) { ... }
 declaretest(name);
@@ -26,7 +26,7 @@ Link with `-ltester`
 INSTALLATION
 ============
 
-Run `make` and then `make PREFIX=/your/prefix install`. The default prefix is `/usr/local`. Run `make example` to compile the example.
+Run `make` and then `make PREFIX=/your/prefix install`. The default prefix is `/usr/local`. Make sure that prefix is in your `LIBRARY_PATH` and `LD_LIBRARY_PATH`. Run `make example` to compile the example.
 
 DESCRIPTION
 ===========
@@ -49,7 +49,7 @@ EXAMPLE
 =======
 
 ```C
-#include "tester.h"
+#include <tester.h>
 #include <unistd.h>    /* for TEST_COLOR_INIT_AUTO */
 
 deftest(mytest1)

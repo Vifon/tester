@@ -15,7 +15,7 @@ libtester.a: tester.c
 .PHONY: shared
 shared: libtester.so
 libtester.so: tester.c
-	$(CC) $(CFLAGS) -fPIC -shared -ldl $< -o $@
+	$(CC) $(CFLAGS) -fPIC -shared $< -o $@
 
 example: example.c static
 	$(CC) $(CFLAGS) -L. -ltester $< -o $@ -static

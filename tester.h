@@ -46,8 +46,11 @@ extern const char* _REVERT_ELLIPSIS;
 
 /********************************************************************/
 
-extern int _tests_failed;
-extern const char* _test_name;
+#define _TEST_MAX_NEST_LEVEL 16
+
+extern int _test_nest_level;
+extern int _tests_failed[_TEST_MAX_NEST_LEVEL];
+extern const char* _test_name[_TEST_MAX_NEST_LEVEL];
 
 /********************************************************************/
 
@@ -66,8 +69,8 @@ void TEST_COLOR_INIT(int turn_on);
 
 #define BEGIN_TEST(NAME)                                \
     do {                                                \
-        _tests_failed = 0;                              \
-        _test_name    = #NAME;                          \
+        _tests_failed[++_test_nest_level] = 0;          \
+        _test_name[_test_nest_level] = #NAME;           \
     } while (0)
 
 /**************************************/
@@ -84,17 +87,21 @@ void TEST_COLOR_INIT(int turn_on);
 
 /********************************************************************/
 
+void _tests_print_names();
+
+/********************************************************************/
+
 /* checks a given predicate */
 #define TEST(P)                                               \
     do {                                                      \
         const char* _color = _GREEN;                          \
         if (!(P)) {                                           \
             _color = _RED_B;                                  \
-            ++_tests_failed;                                  \
+            ++_tests_failed[_test_nest_level];                \
         }                                                     \
+        _tests_print_names();                                 \
         fprintf(stderr,                                       \
-                "%s%s%s: %s%s%s:%s%3d%s:\t%s%s%s\n",          \
-                _MAGENTA_B , _test_name , _RESET ,            \
+                "%s%s%s:%s%3d%s:\t%s%s%s\n",                  \
                 ""         , __FILE__   , _RESET ,            \
                 _BLUE_B    , __LINE__   , _RESET ,            \
                 _color     , #P         , _RESET);            \
@@ -106,10 +113,10 @@ void TEST_COLOR_INIT(int turn_on);
 #define STEST(P)                                              \
     do {                                                      \
         if (!(P)) {                                           \
-            ++_tests_failed;                                  \
+            ++_tests_failed[_test_nest_level];                \
+            _tests_print_names();                             \
             fprintf(stderr,                                   \
-                    "%s%s%s: %s%s%s:%s%3d%s:\t%s%s%s\n",      \
-                    _MAGENTA_B , _test_name , _RESET ,        \
+                    "%s%s%s:%s%3d%s:\t%s%s%s\n",              \
                     ""         , __FILE__   , _RESET ,        \
                     _BLUE_B    , __LINE__   , _RESET ,        \
                     _RED_B     , #P         , _RESET);        \
@@ -120,15 +127,14 @@ void TEST_COLOR_INIT(int turn_on);
 
 #define TIMER(P)                                                      \
     do {                                                              \
-        clock_t _timer_start = clock();                               \
+    _tests_print_names();                                             \
         fprintf(stderr,                                               \
-                "%s%s%s: %s%s%s:%s%3d%s:\t%s%s%s - %s",               \
-            _MAGENTA_B , _test_name , _RESET ,                        \
-            ""         , __FILE__   , _RESET ,                        \
-            _BLUE_B    , __LINE__   , _RESET ,                        \
-            _CYAN      , #P         , _RESET ,                        \
-            _ELLIPSIS);                                               \
+                "%s%s%s:\t%s%s%s - %s",                               \
+                ""         , __FILE__   , _RESET ,                    \
+                _CYAN      , #P         , _RESET ,                    \
+                _ELLIPSIS);                                           \
                                                                       \
+        clock_t _timer_start = clock();                               \
         P;                                                            \
         float _timer_result = (float)(clock() - _timer_start)         \
                               / CLOCKS_PER_SEC;                       \
@@ -141,21 +147,24 @@ void TEST_COLOR_INIT(int turn_on);
 
 /********************************************************************/
 
-#define TEST_PASSED()                                                 \
-    do {                                                              \
-        if (_tests_failed != 0) {                                     \
-            fprintf(stderr,                                           \
-                    "%s%s%s: %s%d%s %s%s%s\n",                        \
-                    _MAGENTA_B , _test_name     , _RESET ,            \
-                    _RED_B     , _tests_failed  , _RESET ,            \
-                    _RED       , "tests failed" , _RESET);            \
-        } else {                                                      \
-            fprintf(stderr,                                           \
-                    "%s%s%s: %s%s%s\n",                               \
-                    _MAGENTA_B , _test_name         , _RESET ,        \
-                    _GREEN_B   , "all tests passed" , _RESET);        \
-        };                                                            \
-        return !!_tests_failed;                                       \
+#define TEST_PASSED()                                                   \
+    do {                                                                \
+        _tests_print_names();                                           \
+        if (_tests_failed[_test_nest_level] != 0) {                     \
+            fprintf(stderr,                                             \
+                    "%s%d%s %s%s%s\n",                                  \
+                    _RED_B , _tests_failed[_test_nest_level] , _RESET , \
+                    _RED   , "tests failed"                  , _RESET); \
+        } else {                                                        \
+            fprintf(stderr,                                             \
+                    "%s%s%s\n",                                         \
+                    _GREEN_B   , "all tests passed" , _RESET);          \
+        };                                                              \
+        int success = !_tests_failed[_test_nest_level--];               \
+        if (_test_nest_level >= 0) {                                    \
+            _tests_failed[_test_nest_level] += !success;                \
+        }                                                               \
+        return success;                                                 \
     } while (0)
 
 /**************************************/

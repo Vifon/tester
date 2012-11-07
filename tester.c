@@ -1,4 +1,5 @@
 /* File: tester.c */
+#include "tester.h"
 
 const char* _RED             = "";
 const char* _RED_B           = "";
@@ -15,8 +16,9 @@ const char* _REVERT_ELLIPSIS = "";
 
 /********************************************************************/
 
-int _tests_failed      = 0;
-const char* _test_name = "UNDEF";
+int _test_nest_level = -1;
+int _tests_failed[_TEST_MAX_NEST_LEVEL] = {0,0,0};
+const char* _test_name[_TEST_MAX_NEST_LEVEL] = {"UNDEF", "UNDEF", "UNDEF"};
 
 /********************************************************************/
 
@@ -36,4 +38,16 @@ void TEST_COLOR_INIT(int turn_on)
         _ELLIPSIS        = "...";
         _REVERT_ELLIPSIS = "\033[3D\033[0K";
     }
+}
+
+/********************************************************************/
+
+void _tests_print_names()
+{
+    fputs(_MAGENTA_B, stderr);
+    int i;
+    for (i = 0; i <= _test_nest_level; ++i) {
+        fprintf(stderr, "%s : ", _test_name[i]);
+    }
+    fputs(_RESET, stderr);
 }

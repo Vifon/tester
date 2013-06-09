@@ -11,6 +11,7 @@ SYNOPSIS
 
 deftest(name) { ... }
 declaretest(name);
+decltest(name);
 void END_TEST();
 
 void TEST(predicate);
@@ -19,6 +20,8 @@ void TIMER(code);
 
 void TEST_COLOR_INIT(int turn_on);
 void TEST_COLOR_INIT_AUTO();    /* needs unistd.h */
+
+int runtests(...);
 ```
 
 Link with `-ltester`
@@ -39,11 +42,15 @@ DESCRIPTION
 
 **declaretest** creates a declaration of a deftest function for the headers.
 
+**decltest** alias to **declaretest**
+
 **TEST** checks whether a given predicate is true.
 
 **STEST** is the same as **TEST** but does not print anything on success. The 'S' stands for "silent".
 
 **TIMER** measures the code execution time.
+
+**runtests** runs a list of tests. The last test *must* be a NULL pointer. Returns non-zero if any test has failed. Zero means a success for this function result to be used as a program exitcode.
 
 EXAMPLE
 =======
@@ -71,7 +78,7 @@ int main(int argc, char *argv[])
 {
     TEST_COLOR_INIT_AUTO();
     
-    return (mytest1() & mytest2()) == 0;
+    return runtests(mytest1, mytest2, NULL);
 }
 ```
 

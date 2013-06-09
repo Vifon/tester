@@ -56,6 +56,17 @@ deftest(bubblesort)
     END_TEST();
 }
 
+decltest(math);
+decltest(string);
+
+deftest(test_suite)
+{
+    math();
+    string();
+
+    END_TEST();
+}
+
 deftest(math)
 {
     TEST(2 + 3 == 5);
@@ -76,15 +87,6 @@ deftest(string)
     END_TEST();
 }
 
-
-deftest(test_suite)
-{
-    math();
-    string();
-
-    END_TEST();
-}
-
 deftest(timers)
 {
     bubblesort();
@@ -98,5 +100,5 @@ int main(int argc, char *argv[])
 
     srand(time(0));
 
-    return (test_suite() & timers()) == 0;
+    return runtests(test_suite, timers, NULL);
 }

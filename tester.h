@@ -22,6 +22,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <stdarg.h>
 
 #ifdef __cplusplus
 extern "C"
@@ -84,6 +85,7 @@ void TEST_COLOR_INIT(int turn_on);
 /**************************************/
 
 #define declaretest(NAME) int NAME()
+#define decltest declaretest
 
 /********************************************************************/
 
@@ -173,6 +175,19 @@ void _tests_print_names();
 #define END_TEST() TEST_PASSED();}
 
 /********************************************************************/
+
+int runtests(int(*test)(), ...)
+{
+    va_list ap;
+    va_start(ap, test);
+    int exitcode = 1;
+    while (test != NULL) {
+        exitcode &= test();
+        test = va_arg(ap, int(*)());
+    }
+    va_end(ap);
+    return !exitcode;
+}
 
 #ifdef __cplusplus
 }

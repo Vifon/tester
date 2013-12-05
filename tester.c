@@ -51,3 +51,18 @@ void _tests_print_names()
     }
     fputs(_RESET, stderr);
 }
+
+/********************************************************************/
+
+int runtests(int(*test)(), ...)
+{
+    va_list ap;
+    va_start(ap, test);
+    int exitcode = 1;
+    while (test != NULL) {
+        exitcode &= test();
+        test = va_arg(ap, int(*)());
+    }
+    va_end(ap);
+    return !exitcode;
+}

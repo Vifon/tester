@@ -17,13 +17,19 @@ shared: libtester.so
 libtester.so: tester.c
 	$(CC) $(CFLAGS) -fPIC -shared $< -o $@
 
-example: example.c static
+.PHONY: example
+example: example_static example_shared
+
+example_static: example.c static
 	$(CC) $(CFLAGS) -L. -ltester $< -o $@ -static
+
+example_shared: example.c shared
+	$(CC) $(CFLAGS) -L. -ltester $< -o $@
 
 
 .PHONY: clean
 clean:
-	$(RM) $(FILES) example
+	$(RM) $(FILES) example_static example_shared
 
 .PHONY: install
 install: all

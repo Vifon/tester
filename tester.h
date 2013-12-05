@@ -176,18 +176,8 @@ void _tests_print_names();
 
 /********************************************************************/
 
-int runtests(int(*test)(), ...)
-{
-    va_list ap;
-    va_start(ap, test);
-    int exitcode = 1;
-    while (test != NULL) {
-        exitcode &= test();
-        test = va_arg(ap, int(*)());
-    }
-    va_end(ap);
-    return !exitcode;
-}
+int runtests(int(*test)(), ...);
+
 
 #ifdef __cplusplus
 }

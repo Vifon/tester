@@ -16,6 +16,7 @@ void END_TEST();
 
 void TEST(predicate);
 void STEST(predicate);
+void CRIR_TEST(predicate);
 void TIMER(code);
 
 void TEST_COLOR_INIT(int turn_on);
@@ -47,6 +48,8 @@ DESCRIPTION
 **TEST** checks whether a given predicate is true.
 
 **STEST** is the same as **TEST** but does not print anything on success. The 'S' stands for "silent".
+
+**CRIT_TEST** is the same as **TEST** but additionally aborts the current test suite.
 
 **TIMER** measures the code execution time.
 

@@ -130,18 +130,20 @@ void _tests_print_names();
 #define CRIT_TEST(P)                                                    \
     do {                                                                \
         const char* _color = _GREEN;                                    \
+        int _this_failed = 0;                                           \
         if (!(P)) {                                                     \
             _color = _RED_B;                                            \
             ++_tests_failed[_test_nest_level];                          \
+            _this_failed = 1;                                           \
         }                                                               \
         _tests_print_names();                                           \
         fprintf(stderr,                                                 \
                 "%s%s%s:%s%3d%s:\t%s%s%s\n",                            \
                 ""         , __FILE__   , _RESET ,                      \
-                _color == _RED_B ? _RED_B : _BLUE_B ,                   \
+                _this_failed ? _RED_B : _BLUE_B ,                       \
                 __LINE__   , _RESET     ,                               \
                 _color     , #P         , _RESET);                      \
-        if (_color == _RED_B) {                                         \
+        if (_this_failed) {                                             \
             TEST_PASSED();                                              \
         }                                                               \
     } while (0)

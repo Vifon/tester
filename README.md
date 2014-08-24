@@ -58,6 +58,8 @@ DESCRIPTION
 
 **runtests** runs a list of tests. The last test *must* be a NULL pointer. Returns non-zero if any test has failed. Zero means a success for this function result to be used as a program exitcode.
 
+NOTE: Try to avoid the identifiers starting with a single underscore as they are used for the internal global variables and macros.
+
 EXAMPLE
 =======
 

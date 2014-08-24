@@ -12,6 +12,7 @@ SYNOPSIS
 deftest(name) { ... }
 declaretest(name);
 decltest(name);
+void BEGIN_TEST(name);
 void END_TEST();
 
 void TEST(predicate);
@@ -40,6 +41,8 @@ DESCRIPTION
 **TEST_COLOR_INIT_AUTO** automatically turns on the coloring if stderr is an interactive terminal.
 
 **deftest** macro defines a test-function in which you can use the other macros. You can use them in all the functions called from this function as long as they are not called from the outside. You *must* end it with END_TEST() macro! Since version 1.0, tests can be nested (up to 16 nest levels). A subtest with any failed tests counts as a single failed test in a test suite. Test suites return non-zero on success.
+
+**BEGIN_TEST** called with the appropriate function name may be used at the beginning of a regular argumentless function returning int if you don't want to use **deftest**'s syntactic sugar.
 
 **declaretest** creates a declaration of a deftest function for the headers.
 

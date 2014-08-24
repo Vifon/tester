@@ -1,42 +1,42 @@
 /* File: tester.c */
 #include "tester.h"
 
-const char* _RED             = "";
-const char* _RED_B           = "";
-const char* _GREEN           = "";
-const char* _GREEN_B         = "";
-const char* _BLUE_B          = "";
-const char* _MAGENTA_B       = "";
-const char* _CYAN            = "";
-const char* _CYAN_B          = "";
-const char* _RESET           = "";
+const char* _red             = "";
+const char* _red_b           = "";
+const char* _green           = "";
+const char* _green_b         = "";
+const char* _blue_b          = "";
+const char* _magenta_b       = "";
+const char* _cyan            = "";
+const char* _cyan_b          = "";
+const char* _reset           = "";
 
-const char* _ELLIPSIS        = "";
-const char* _REVERT_ELLIPSIS = "";
+const char* _ellipsis        = "";
+const char* _revert_ellipsis = "";
 
 /********************************************************************/
 
 int _test_nest_level = -1;
-int _tests_failed[_TEST_MAX_NEST_LEVEL] = {0,0,0};
-const char* _test_name[_TEST_MAX_NEST_LEVEL] = {"UNDEF", "UNDEF", "UNDEF"};
+int _tests_failed[_test_max_nest_level] = {0,0,0};
+const char* _test_name[_test_max_nest_level] = {"UNDEF", "UNDEF", "UNDEF"};
 
 /********************************************************************/
 
 void TEST_COLOR_INIT(int turn_on)
 {
     if (turn_on) {
-        _RED       = "\033[31m";
-        _RED_B     = "\033[31;1m";
-        _GREEN     = "\033[32m";
-        _GREEN_B   = "\033[32;1m";
-        _BLUE_B    = "\033[34;1m";
-        _MAGENTA_B = "\033[35;1m";
-        _CYAN      = "\033[36m";
-        _CYAN_B    = "\033[36;1m";
-        _RESET     = "\033[0m";
+        _red       = "\033[31m";
+        _red_b     = "\033[31;1m";
+        _green     = "\033[32m";
+        _green_b   = "\033[32;1m";
+        _blue_b    = "\033[34;1m";
+        _magenta_b = "\033[35;1m";
+        _cyan      = "\033[36m";
+        _cyan_b    = "\033[36;1m";
+        _reset     = "\033[0m";
 
-        _ELLIPSIS        = "...";
-        _REVERT_ELLIPSIS = "\033[3D\033[0K";
+        _ellipsis        = "...";
+        _revert_ellipsis = "\033[3D\033[0K";
     }
 }
 
@@ -44,12 +44,12 @@ void TEST_COLOR_INIT(int turn_on)
 
 void _tests_print_names()
 {
-    fputs(_MAGENTA_B, stderr);
+    fputs(_magenta_b, stderr);
     int i;
     for (i = 0; i <= _test_nest_level; ++i) {
         fprintf(stderr, "%s : ", _test_name[i]);
     }
-    fputs(_RESET, stderr);
+    fputs(_reset, stderr);
 }
 
 /********************************************************************/

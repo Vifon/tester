@@ -16,8 +16,8 @@
 /* along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 /*************************************************************************/
 
-#ifndef _TESTER_H_
-#define _TESTER_H_
+#ifndef _h_TESTER_
+#define _h_TESTER_
 
 #include <stdio.h>
 #include <string.h>
@@ -32,26 +32,26 @@ extern "C"
 /********************************************************************/
 
 /* these formatting strings are populated by TEST_COLOR_INIT */
-extern const char* _RED;
-extern const char* _RED_B;
-extern const char* _GREEN;
-extern const char* _GREEN_B;
-extern const char* _BLUE_B;
-extern const char* _MAGENTA_B;
-extern const char* _CYAN;
-extern const char* _CYAN_B;
-extern const char* _RESET;
+extern const char* _red;
+extern const char* _red_b;
+extern const char* _green;
+extern const char* _green_b;
+extern const char* _blue_b;
+extern const char* _magenta_b;
+extern const char* _cyan;
+extern const char* _cyan_b;
+extern const char* _reset;
 
-extern const char* _ELLIPSIS;
-extern const char* _REVERT_ELLIPSIS;
+extern const char* _ellipsis;
+extern const char* _revert_ellipsis;
 
 /********************************************************************/
 
-#define _TEST_MAX_NEST_LEVEL 16
+#define _test_max_nest_level 16
 
 extern int _test_nest_level;
-extern int _tests_failed[_TEST_MAX_NEST_LEVEL];
-extern const char* _test_name[_TEST_MAX_NEST_LEVEL];
+extern int _tests_failed[_test_max_nest_level];
+extern const char* _test_name[_test_max_nest_level];
 
 /********************************************************************/
 
@@ -96,17 +96,17 @@ void _tests_print_names();
 /* checks a given predicate */
 #define TEST(P)                                               \
     do {                                                      \
-        const char* _color = _GREEN;                          \
+        const char* _color = _green;                          \
         if (!(P)) {                                           \
-            _color = _RED_B;                                  \
+            _color = _red_b;                                  \
             ++_tests_failed[_test_nest_level];                \
         }                                                     \
         _tests_print_names();                                 \
         fprintf(stderr,                                       \
                 "%s%s%s:%s%3d%s:\t%s%s%s\n",                  \
-                ""         , __FILE__   , _RESET ,            \
-                _BLUE_B    , __LINE__   , _RESET ,            \
-                _color     , #P         , _RESET);            \
+                ""         , __FILE__   , _reset ,            \
+                _blue_b    , __LINE__   , _reset ,            \
+                _color     , #P         , _reset);            \
     } while (0)
 
 /********************************************************************/
@@ -119,9 +119,9 @@ void _tests_print_names();
             _tests_print_names();                             \
             fprintf(stderr,                                   \
                     "%s%s%s:%s%3d%s:\t%s%s%s\n",              \
-                    ""         , __FILE__   , _RESET ,        \
-                    _BLUE_B    , __LINE__   , _RESET ,        \
-                    _RED_B     , #P         , _RESET);        \
+                    ""         , __FILE__   , _reset ,        \
+                    _blue_b    , __LINE__   , _reset ,        \
+                    _red_b     , #P         , _reset);        \
         }                                                     \
     } while (0)
 
@@ -129,20 +129,20 @@ void _tests_print_names();
 
 #define CRIT_TEST(P)                                                    \
     do {                                                                \
-        const char* _color = _GREEN;                                    \
+        const char* _color = _green;                                    \
         int _this_failed = 0;                                           \
         if (!(P)) {                                                     \
-            _color = _RED_B;                                            \
+            _color = _red_b;                                            \
             ++_tests_failed[_test_nest_level];                          \
             _this_failed = 1;                                           \
         }                                                               \
         _tests_print_names();                                           \
         fprintf(stderr,                                                 \
                 "%s%s%s:%s%3d%s:\t%s%s%s\n",                            \
-                ""         , __FILE__   , _RESET ,                      \
-                _this_failed ? _RED_B : _BLUE_B ,                       \
-                __LINE__   , _RESET     ,                               \
-                _color     , #P         , _RESET);                      \
+                ""         , __FILE__   , _reset ,                      \
+                _this_failed ? _red_b : _blue_b ,                       \
+                __LINE__   , _reset     ,                               \
+                _color     , #P         , _reset);                      \
         if (_this_failed) {                                             \
             TEST_PASSED();                                              \
         }                                                               \
@@ -155,9 +155,9 @@ void _tests_print_names();
     _tests_print_names();                                             \
         fprintf(stderr,                                               \
                 "%s%s%s:\t%s%s%s - %s",                               \
-                ""         , __FILE__   , _RESET ,                    \
-                _CYAN      , #P         , _RESET ,                    \
-                _ELLIPSIS);                                           \
+                ""         , __FILE__   , _reset ,                    \
+                _cyan      , #P         , _reset ,                    \
+                _ellipsis);                                           \
                                                                       \
         clock_t _timer_start = clock();                               \
         P;                                                            \
@@ -166,8 +166,8 @@ void _tests_print_names();
                                                                       \
         fprintf(stderr,                                               \
                 "%s%s%gs%s\n",                                        \
-                _REVERT_ELLIPSIS,                                     \
-                _CYAN_B    , _timer_result , _RESET);                 \
+                _revert_ellipsis,                                     \
+                _cyan_b    , _timer_result , _reset);                 \
     } while (0)
 
 /********************************************************************/
@@ -178,12 +178,12 @@ void _tests_print_names();
         if (_tests_failed[_test_nest_level] != 0) {                     \
             fprintf(stderr,                                             \
                     "%s%d%s %s%s%s\n",                                  \
-                    _RED_B , _tests_failed[_test_nest_level] , _RESET , \
-                    _RED   , "tests failed"                  , _RESET); \
+                    _red_b , _tests_failed[_test_nest_level] , _reset , \
+                    _red   , "tests failed"                  , _reset); \
         } else {                                                        \
             fprintf(stderr,                                             \
                     "%s%s%s\n",                                         \
-                    _GREEN_B   , "all tests passed" , _RESET);          \
+                    _green_b   , "all tests passed" , _reset);          \
         };                                                              \
         int success = !_tests_failed[_test_nest_level--];               \
         if (_test_nest_level >= 0) {                                    \

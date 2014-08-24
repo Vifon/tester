@@ -1,7 +1,7 @@
 NAME
 ====
 
-tester - a simple testing framework for C/C++
+tester - a very simple testing framework for C/C++ (mostly C)
 
 SYNOPSIS
 ========

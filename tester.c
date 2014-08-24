@@ -1,4 +1,14 @@
 /* File: tester.c */
+/**********************************************************************/
+/* Copyright (C) 2012  Wojciech Siewierski                            */
+/*                                                                    */
+/* This program is free software, you can redistribute it and/or      */
+/* modify it under the terms of the new-style BSD license.            */
+/*                                                                    */
+/* You should have received a copy of the BSD license along with this */
+/* program. If not, see <http://www.debian.org/misc/bsd.license>.     */
+/**********************************************************************/
+
 #include "tester.h"
 
 const char* _red             = "";
